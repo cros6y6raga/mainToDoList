@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {FilterValuesType} from './App';
 
 type TaskType = {
-    id: number
+    id: string
     title: string
     isDone: boolean
 }
@@ -9,58 +10,70 @@ type TaskType = {
 type PropsType = {
     title: string
     tasks: Array<TaskType>
-    removeTasks: (taskID: number) => void
-    //filterTasks: (button: string) => void
+    removeTask: (taskId: string) => void
+    changeFilter: (value: FilterValuesType) => void
+    addTask: (newTitle: string) => void
 }
 
 export function Todolist(props: PropsType) {
-    const [filter, setFilter] = useState('All')
-    let filteredTasks = props.tasks
-    if (filter === 'Active') {
-        filteredTasks = props.tasks.filter(el => !el.isDone)
+    const [title, setTitle] = useState('')
+    const addTaskHandler = () => {
+        props.addTask(title)
+        setTitle('')
     }
-    if (filter === 'Completed') {
-        filteredTasks = props.tasks.filter(el => el.isDone)
+    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.currentTarget.value)
     }
-    const filterTasks = (button: string) => {
-        setFilter(button)
+    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        //если нажал Enter, то запускай addTaskHandler()
+        if (event.key === 'Enter') {
+            addTaskHandler()
+        }
+    }
+    const allChangeFilterHandler = () => {
+        props.changeFilter('all')
+    }
+    const activeChangeFilterHandler = () => {
+        props.changeFilter('active')
+    }
+    const tsarFooHandler = (filterValue: FilterValuesType) => {
+        props.changeFilter(filterValue)
     }
     return <div>
         <h3>{props.title}</h3>
         <div>
-            <input/>
-            <button>+</button>
+            <input value={title} onChange={onChangeHandler} onKeyDown={onKeyPressHandler}/>
+            <button onClick={addTaskHandler}>+</button>
+            {/*<button onClick={(event)=>{props.addTask(title)}}>+</button>*/}
         </div>
         <ul>
-            {filteredTasks.map((el) => {
-                return (
-                    <li key={el.id}>
-                        <button onClick={() => {
-                            props.removeTasks(el.id)
-                        }}>Delete
-                        </button>
-                        <input type="checkbox" checked={el.isDone}/>
-                        <span>{el.title}</span>
-                    </li>
-                )
-            })}
-            {/*<li><input type="checkbox" checked={props.tasks[0].isDone}/> <span>{props.tasks[0].title}</span></li>*/}
-            {/*<li><input type="checkbox" checked={props.tasks[1].isDone}/> <span>{props.tasks[1].title}</span></li>*/}
-            {/*<li><input type="checkbox" checked={props.tasks[2].isDone}/> <span>{props.tasks[2].title}</span></li>*/}
+            {
+                props.tasks.map(t => {
+                    return (
+                        <li key={t.id}>
+                            <input type="checkbox" checked={t.isDone}/>
+                            <span>{t.title}</span>
+                            <button onClick={() => {
+                                props.removeTask(t.id)
+                            }}>x
+                            </button>
+                        </li>
+                    )
+                })
+            }
         </ul>
         <div>
-            <button onClick={() => {
-                filterTasks('All')
-            }}>All
-            </button>
-            <button onClick={() => {
-                filterTasks('Active')
-            }}>Active
-            </button>
-            <button onClick={() => {
-                filterTasks('Completed')
-            }}>Completed
-            </button>
+            <button onClick={() => tsarFooHandler('all')}>All</button>
+            <button onClick={() => tsarFooHandler('active')}>Active</button>
+            <button onClick={() => tsarFooHandler('completed')}>Completed</button>
+
+            {/*<button onClick={allChangeFilterHandler}>All</button>*/}
+            {/*<button onClick={activeChangeFilterHandler}>Active</button>*/}
+            {/*<button onClick={ () => { props.changeFilter("completed") } }>Completed</button>*/}
+
+            {/*<button onClick={ () => { props.changeFilter("all") } }>All</button>*/}
+            {/*<button onClick={ () => { props.changeFilter("active") } }>Active</button>*/}
+            {/*<button onClick={ () => { props.changeFilter("completed") } }>Completed</button>*/}
         </div>
     </div>
 }
