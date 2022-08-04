@@ -66,7 +66,7 @@ export function Todolist(props: PropsType) {
             <button onClick={() => tsarFooHandler('all')}>All</button>
             <button onClick={() => tsarFooHandler('active')}>Active</button>
             <button onClick={() => tsarFooHandler('completed')}>Completed</button>
-
+//старый код
             {/*<button onClick={allChangeFilterHandler}>All</button>*/}
             {/*<button onClick={activeChangeFilterHandler}>Active</button>*/}
             {/*<button onClick={ () => { props.changeFilter("completed") } }>Completed</button>*/}
