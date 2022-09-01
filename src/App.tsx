@@ -130,7 +130,7 @@ function App() {
                     if (tl.filter === "completed") {
                         tasksForTodolist = allTodolistTasks.filter(t => t.isDone === true);
                     }
-
+//отрисовка
                     return <Todolist
                         key={tl.id}
                         id={tl.id}
