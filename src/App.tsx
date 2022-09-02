@@ -115,7 +115,7 @@ function App() {
             [newTodolistId]: []
         })
     }
-
+//отрисовка
     return (
         <div className="App">
             <AddItemForm addItem={addTodolist} />
