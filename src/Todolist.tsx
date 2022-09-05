@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import {Button, IconButton} from '@material-ui/core';
+import {Button, Checkbox, FormControlLabel, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
 
 export type TaskType = {
@@ -41,12 +41,12 @@ export function Todolist(props: PropsType) {
         props.changeTodolistTitle(props.id, title);
     }
 
-    const onAllClickHandler = () => props.changeFilter("all", props.id);
-    const onActiveClickHandler = () => props.changeFilter("active", props.id);
-    const onCompletedClickHandler = () => props.changeFilter("completed", props.id);
+    const onAllClickHandler = () => props.changeFilter('all', props.id);
+    const onActiveClickHandler = () => props.changeFilter('active', props.id);
+    const onCompletedClickHandler = () => props.changeFilter('completed', props.id);
 
     return <div>
-        <h3> <EditableSpan value={props.title} onChange={changeTodolistTitle} />
+        <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
             <IconButton aria-label="delete" onClick={removeTodolist}>
                 <Delete/>
             </IconButton>
@@ -64,10 +64,11 @@ export function Todolist(props: PropsType) {
                         props.changeTaskTitle(t.id, newValue, props.id);
                     }
 
-
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>
-                        <EditableSpan value={t.title} onChange={onTitleChangeHandler} />
+                    return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
+                        {/*<input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>*/}
+                        <Checkbox defaultChecked onChange={onChangeHandler} checked={t.isDone}/>
+                        {/*<FormControlLabel control={<Checkbox defaultChecked />} label="Label" onChange={onChangeHandler} checked={t.isDone}/>*/}
+                        <EditableSpan value={t.title} onChange={onTitleChangeHandler}/>
                         {/*<button onClick={onClickHandler}>x</button>*/}
                         <IconButton aria-label="delete" onClick={onClickHandler}>
                             <Delete/>
@@ -77,18 +78,18 @@ export function Todolist(props: PropsType) {
             }
         </ul>
         <div>
-            <Button variant="contained">Contained</Button>
-            <Button variant="contained" color="secondary">Contained</Button>
-            <Button variant="contained">Contained</Button>
-            <button className={props.filter === 'all' ? "active-filter" : ""}
-                    onClick={onAllClickHandler}>All
-            </button>
-            <button className={props.filter === 'active' ? "active-filter" : ""}
-                    onClick={onActiveClickHandler}>Active
-            </button>
-            <button className={props.filter === 'completed' ? "active-filter" : ""}
-                    onClick={onCompletedClickHandler}>Completed
-            </button>
+            <Button variant={props.filter === 'all' ? "text" :"contained"} color="secondary" onClick={onAllClickHandler}>All</Button>
+            <Button variant={props.filter === 'active' ? "text" :"contained"} color="secondary"  onClick={onActiveClickHandler}>Active</Button>
+            <Button variant={props.filter === 'completed' ? "text" :"contained"} color="secondary" onClick={onCompletedClickHandler}>Completed</Button>
+            {/*<button className={props.filter === 'all' ? "active-filter" : ""}*/}
+            {/*        onClick={onAllClickHandler}>All*/}
+            {/*</button>*/}
+            {/*<button className={props.filter === 'active' ? "active-filter" : ""}*/}
+            {/*        onClick={onActiveClickHandler}>Active*/}
+            {/*</button>*/}
+            {/*<button className={props.filter === 'completed' ? "active-filter" : ""}*/}
+            {/*        onClick={onCompletedClickHandler}>Completed*/}
+            {/*</button>*/}
         </div>
     </div>
 }
